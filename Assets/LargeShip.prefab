@@ -5118,7 +5118,7 @@ MonoBehaviour:
   desiredSpeed: 0
   speed: 0
   minSpeed: 0
-  maxSpeed: 2
+  maxSpeed: 1.6
   lockAtHeight: 1
   wake1: {fileID: 7052649437555830521}
   wake2: {fileID: 7052649439548949021}

@@ -19,12 +19,12 @@ public class Orientor : MonoBehaviour
         entity = transform.GetComponent<Entity>();
     }
 
-    void IncreaseDesiredHeading()
+    public void IncreaseDesiredHeading()
     {
         desiredHeading += desiredChangeRate * Time.deltaTime;
     }
 
-    void DecreaseDesiredHeading()
+    public void DecreaseDesiredHeading()
     {
         desiredHeading -= desiredChangeRate * Time.deltaTime;
     }
@@ -51,16 +51,6 @@ public class Orientor : MonoBehaviour
 
     void Update()
     {
-
-        if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            DecreaseDesiredHeading();
-        }
-        if (Input.GetKey(KeyCode.RightArrow))
-        {
-            IncreaseDesiredHeading();
-        }
-
         // keep desired heading within 0-360
         if (desiredHeading > 360)
         {

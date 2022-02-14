@@ -6,6 +6,7 @@ public class Movement : MonoBehaviour
 {
     public double accelRate;
     public double desiredSpeed;
+    public float desiredChangeRate = 0.3f;
     public double speed;
     [Range(-1,0)]
     public float minSpeed = 0f;
@@ -24,6 +25,16 @@ public class Movement : MonoBehaviour
         height = transform.position.y;
         wake1.Stop();
         wake2.Stop();
+    }
+
+    public void IncreaseDesiredSpeed()
+    {
+        desiredSpeed += desiredChangeRate * Time.deltaTime;
+    }
+  
+    public void DecreaseDesiredSpeed()
+    {
+        desiredSpeed -= desiredChangeRate * Time.deltaTime;
     }
 
     // Update is called once per frame

@@ -93,8 +93,6 @@ public class EntityMgr : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit, float.PositiveInfinity))
             {
-                Transform objectHit = hit.transform;
-
                 if(Input.GetKey(KeyCode.LeftShift))
                 {
                     ToggleSelectionOnEntities(EntitiesInRange(selectionDistance, hit.point));
@@ -120,6 +118,26 @@ public class EntityMgr : MonoBehaviour
                     }
                 }
 
+            }
+        }
+
+        foreach (Entity ent in selectedEntities)
+        {
+            if (Input.GetKey(KeyCode.LeftArrow))
+            {
+                ent.orientor.DecreaseDesiredHeading();
+            }
+            if (Input.GetKey(KeyCode.RightArrow))
+            {
+                ent.orientor.IncreaseDesiredHeading();
+            }
+            if (Input.GetKey(KeyCode.DownArrow))
+            {
+                ent.movement.DecreaseDesiredSpeed();
+            }
+            if (Input.GetKey(KeyCode.UpArrow))
+            {
+                ent.movement.IncreaseDesiredSpeed();
             }
         }
     }

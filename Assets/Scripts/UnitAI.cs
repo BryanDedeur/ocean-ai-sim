@@ -20,6 +20,9 @@ public class UnitAI : MonoBehaviour
         if (targets.Count > 0)
         {
             wp.DrawLineToPoint(targets[targets.Count - 1].transform.position);
+        } else
+        {
+            wp.DrawLineToPoint(wp.transform.position);
         }
         targets.Add(wp);
     }
@@ -40,6 +43,15 @@ public class UnitAI : MonoBehaviour
             Destroy(waypoint.gameObject);
         }
         targets.Clear();
+    }
+
+    public Vector3 GetLastWaypointPosition()
+    {
+        if (targets.Count > 0)
+        {
+            return targets[targets.Count - 1].transform.position;
+        }
+        return transform.position;
     }
 
     // Update is called once per frame
@@ -64,6 +76,10 @@ public class UnitAI : MonoBehaviour
                 targets.RemoveAt(0);
                 Destroy(temp.gameObject);
                 entity.movement.desiredSpeed = 0;
+                if (targets.Count > 0)
+                {
+                    targets[0].DrawLineToPoint(targets[0].transform.position);
+                }
             }
         }
     }

@@ -24,6 +24,16 @@ public class AIMgr : MonoBehaviour
         
     }
 
+    void CreateWaypoint(Vector3 pos, Entity ent)
+    {
+        GameObject wp = Instantiate(waypoint);
+        pos.y = 0;
+        wp.transform.position = pos;
+        Waypoint wayp = wp.transform.GetComponent<Waypoint>();
+        wayp.entity = ent;
+        ent.unitAI.AddTask(wayp);
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -41,19 +51,15 @@ public class AIMgr : MonoBehaviour
                     // make sure something is selected
                     foreach (Entity ent in EntityMgr.instance.selectedEntities)
                     {
-                        GameObject wp = Instantiate(waypoint);
-                        wp.transform.position = hit.point;
-                        Vector3 pos = wp.transform.position;
-                        pos.y = 0;
-                        wp.transform.position = pos;
-                        Waypoint wayp = wp.transform.GetComponent<Waypoint>();
-                        wayp.entity = ent;
-                        ent.unitAI.AddTask(wayp);
+                        //CreateWaypoint(ent);
+
+                        Route route = AStarMgr.instance.ComputeRoute(ent.unitAI.GetLastWaypointPosition(), hit.point);
+                        foreach(Node node in route.nodes)
+                        {
+                            CreateWaypoint(node.transform.position, ent);
+                        }
                     }
                 }
-
-
-
             }
         }
 
@@ -75,6 +81,7 @@ public class AIMgr : MonoBehaviour
             foreach (Entity ent in EntityMgr.instance.selectedEntities)
             {
                 ent.unitAI.ClearTasks();
+                ent.movement.desiredSpeed = 0;
             }
         }
     }
