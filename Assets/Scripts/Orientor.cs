@@ -8,7 +8,9 @@ public class Orientor : MonoBehaviour
     public float desiredChangeRate = 30;
     public float turnRate = 15;
 
-    public float desiredHeading;
+    public Vector3 directionVector;
+
+    private float desiredHeading;
     public float heading;
 
     private Transform headingIndicator;
@@ -51,6 +53,11 @@ public class Orientor : MonoBehaviour
 
     void Update()
     {
+        if (directionVector.magnitude > 0)
+        {
+            desiredHeading = Mathf.Rad2Deg * Mathf.Atan2(-directionVector.z, directionVector.x);
+        }
+
         // keep desired heading within 0-360
         if (desiredHeading > 360)
         {
@@ -67,27 +74,31 @@ public class Orientor : MonoBehaviour
         }
 
 
-        if (desiredHeading <= heading)
+        if (entity.movement.speed > 0)
         {
-            if (Mathf.Abs(desiredHeading - heading) <= 180)
+            if (desiredHeading <= heading)
             {
-                heading -= turnRate * Time.deltaTime;
-            } else
-            {
-                heading += turnRate * Time.deltaTime;
-            }
-        } else
-        {
-            if (Mathf.Abs(heading - desiredHeading) <= 180)
-            {
-                heading += turnRate * Time.deltaTime;
+                if (Mathf.Abs(desiredHeading - heading) <= 180)
+                {
+                    heading -= turnRate * Time.deltaTime;
+                }
+                else
+                {
+                    heading += turnRate * Time.deltaTime;
+                }
             }
             else
             {
-                heading -= turnRate * Time.deltaTime;
+                if (Mathf.Abs(heading - desiredHeading) <= 180)
+                {
+                    heading += turnRate * Time.deltaTime;
+                }
+                else
+                {
+                    heading -= turnRate * Time.deltaTime;
+                }
             }
         }
-
 
         // keep desired heading within 0-360
         if (heading > 360)
@@ -100,5 +111,7 @@ public class Orientor : MonoBehaviour
         }
 
         transform.eulerAngles = new Vector3(0, heading, 0);
+
+        directionVector = Vector3.zero;
     }
 }

@@ -68,7 +68,8 @@ public class UnitAI : MonoBehaviour
             distanceToTarget = diff.magnitude;
 
             Vector3 dir = diff.normalized;
-            entity.orientor.desiredHeading = Mathf.Rad2Deg * Mathf.Atan2(-dir.z, dir.x);
+            entity.orientor.directionVector += dir;
+            /*entity.orientor.desiredHeading = Mathf.Rad2Deg * Mathf.Atan2(-dir.z, dir.x);*/
 
             // Computing desired speed
 

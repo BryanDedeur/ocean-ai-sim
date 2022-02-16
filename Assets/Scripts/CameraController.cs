@@ -10,7 +10,7 @@ public class CameraController : MonoBehaviour
     private float orbitAngleChangeRate = 145;
     private Vector3 posInSphere;
     private float distanceFromFocus = 5f;
-    public float scrollSpeed = 2f;
+    public float scrollSpeed = 10f;
     public float minHeight = 1f;
     public float cameraMoveSpeed = 5f;
     private Vector3 cameraStartEulerAngles;

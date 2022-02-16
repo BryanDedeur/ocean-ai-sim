@@ -9786,6 +9786,7 @@ GameObject:
   - component: {fileID: 8040338155461113946}
   - component: {fileID: 8040338155461113949}
   - component: {fileID: 8040338155461113948}
+  - component: {fileID: 7900488168972498288}
   m_Layer: 0
   m_Name: SmallShip
   m_TagString: Untagged
@@ -9904,7 +9905,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   desiredChangeRate: 45
   turnRate: 20
-  desiredHeading: 0
+  directionVector: {x: 0, y: 0, z: 0}
   heading: 0
 --- !u!114 &8040338155461113949
 MonoBehaviour:
@@ -9944,3 +9945,17 @@ MonoBehaviour:
   targetTollerance: 1
   targetSpeed: 0
   stoppingDistance: 0
+--- !u!114 &7900488168972498288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8040338155461113951}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53944a8941fd78240bdd138be30ac6b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  potentialVector: {x: 0, y: 0, z: 0}
+  potentialForceExperienced: 0
