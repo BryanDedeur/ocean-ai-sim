@@ -53,10 +53,20 @@ public class AIMgr : MonoBehaviour
                     {
                         //CreateWaypoint(ent);
 
-                        Route route = AStarMgr.instance.ComputeRoute(ent.unitAI.GetLastWaypointPosition(), hit.point);
-                        foreach(Node node in route.nodes)
+                        if (AStarMgr.instance.isActiveAndEnabled)
                         {
-                            CreateWaypoint(node.transform.position, ent);
+                            Route route = AStarMgr.instance.ComputeRoute(ent.unitAI.GetLastWaypointPosition(), hit.point);
+                            //StartCoroutine(AStarMgr.instance.ComputeRoute(ent.unitAI.GetLastWaypointPosition(), hit.point));
+                            if (route != null)
+                            {
+                                foreach (Node node in route.nodes)
+                                {
+                                    CreateWaypoint(node.transform.position, ent);
+                                }
+                            }
+                        } else
+                        {
+                            CreateWaypoint(hit.point, ent);
                         }
                     }
                 }

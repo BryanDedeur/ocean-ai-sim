@@ -10,9 +10,15 @@ public class Route
     public void Add(Node node)
     {
         nodes.Add(node);
-        if (nodes.Count > 0)
+/*        if (nodes.Count > 0)
         {
-            cost += (nodes[nodes.Count - 1].transform.position - node.transform.position).magnitude;
-        }
+            cost += AStarMgr.instance.Distance(nodes[nodes.Count - 1], node);
+        }*/
+    }
+
+    public void Clear()
+    {
+        nodes.Clear();
+        cost = 0;
     }
 }
