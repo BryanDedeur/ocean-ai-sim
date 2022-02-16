@@ -8,6 +8,9 @@ public class UnitAI : MonoBehaviour
     public List<Waypoint> targets;
     public float distanceToTarget;
     public float targetTollerance = 2f;
+    public float targetSpeed = 0;
+    public float stoppingDistance;
+
 
     // Start is called before the first frame update
     void Awake()
@@ -64,11 +67,55 @@ public class UnitAI : MonoBehaviour
             Vector3 diff = targets[0].transform.position - transform.position;
             distanceToTarget = diff.magnitude;
 
-            diff = diff.normalized;
-            entity.orientor.desiredHeading = Mathf.Rad2Deg * Mathf.Atan2(-diff.z, diff.x);
+            Vector3 dir = diff.normalized;
+            entity.orientor.desiredHeading = Mathf.Rad2Deg * Mathf.Atan2(-dir.z, dir.x);
 
-            float dot = 1 - Mathf.Abs(Vector3.Dot(transform.forward, (targets[0].transform.position - transform.position).normalized));
-            entity.movement.desiredSpeed = entity.movement.maxSpeed * dot + 0.05;
+            // Computing desired speed
+
+            float dot;
+            if (targets.Count > 1)
+            {
+                dot = 1 - Mathf.Abs(Vector3.Dot(transform.forward, (targets[1].transform.position - targets[0].transform.position).normalized));
+                float approachSpeed = entity.movement.maxSpeed * dot + 0.05f;
+                if (entity.movement.speed > approachSpeed)
+                {
+                    float timeToStop = (entity.movement.speed - approachSpeed) / (entity.movement.accelRate);
+                    stoppingDistance = (0.5f * entity.movement.speed * timeToStop);/* + (0.01f * entity.movement.accelRate * Mathf.Pow(timeToStop, 2f));*/
+
+                    if (distanceToTarget < stoppingDistance)
+                    {
+                        entity.movement.desiredSpeed = approachSpeed ; //entity.movement.desiredSpeed - entity.movement.accelRate * Time.deltaTime;
+                    }
+                }
+                else
+                {
+                    dot = 1 - Mathf.Abs(Vector3.Dot(transform.forward, (targets[0].transform.position - transform.position).normalized));
+                    entity.movement.desiredSpeed = entity.movement.maxSpeed * dot + 0.05f;
+                }
+            } else if (targets.Count == 1)
+            {
+
+                if (entity.movement.speed > 0)
+                {
+                    float timeToStop = (entity.movement.speed) / (entity.movement.accelRate);
+                    stoppingDistance = (0.5f * entity.movement.speed * timeToStop);/* + (0.01f * entity.movement.accelRate * Mathf.Pow(timeToStop, 2f));*/
+                } else
+                {
+                    stoppingDistance = 0;
+                }
+
+
+                if (distanceToTarget < stoppingDistance)
+                {
+                    entity.movement.desiredSpeed = 0; //entity.movement.desiredSpeed - entity.movement.accelRate * Time.deltaTime;
+                } else
+                {
+                    dot = 1 - Mathf.Abs(Vector3.Dot(transform.forward, (targets[0].transform.position - transform.position).normalized));
+                    entity.movement.desiredSpeed = entity.movement.maxSpeed * dot + 0.05f;
+                }
+            }
+
+
 
             if (distanceToTarget < targetTollerance)
             {

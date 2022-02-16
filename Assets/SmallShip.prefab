@@ -9920,6 +9920,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   accelRate: 0.3
   desiredSpeed: 0
+  desiredChangeRate: 0.3
   speed: 0
   minSpeed: 0
   maxSpeed: 1
@@ -9940,4 +9941,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targets: []
   distanceToTarget: 0
-  targetTollerance: 2
+  targetTollerance: 1
+  targetSpeed: 0
+  stoppingDistance: 0

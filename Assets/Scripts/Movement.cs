@@ -4,14 +4,13 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
-    public double accelRate;
-    public double desiredSpeed;
+    public float accelRate;
+    public float desiredSpeed;
     public float desiredChangeRate = 0.3f;
-    public double speed;
+    public float speed;
     [Range(-1,0)]
     public float minSpeed = 0f;
-    [Range(0, 5)]
-    public float maxSpeed = 2f;
+    public float maxSpeed = 0f;
 
     public bool lockAtHeight = true;
     private float height;
@@ -52,7 +51,7 @@ public class Movement : MonoBehaviour
         {
             if (desiredSpeed < speed)
             {
-                speed -= accelRate * (double) Time.deltaTime;
+                speed -= accelRate * Time.deltaTime;
                 if (speed <= 0)
                 {
                     wake1.Stop();
@@ -66,7 +65,7 @@ public class Movement : MonoBehaviour
                     wake1.Play();
                     wake2.Play();
                 }
-                speed += accelRate * (double) Time.deltaTime;
+                speed += accelRate * Time.deltaTime;
             }
         }
 
