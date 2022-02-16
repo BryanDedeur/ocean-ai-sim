@@ -11,6 +11,8 @@ public class AStarMgr : MonoBehaviour
     public GameObject nodePrefab;
     public List<List<Node>> nodes;
 
+    private GameObject nodesStorage;
+
     private float xStepSize = 0;
     private float zStepSize = 0;
 
@@ -24,6 +26,16 @@ public class AStarMgr : MonoBehaviour
         {
             Destroy(this);
         }
+
+    }
+
+    public void Reset()
+    {
+        if (nodesStorage != null)
+        {
+            Destroy(nodesStorage);
+        }
+        nodesStorage = new GameObject();
         CreateNodes(new Vector2(-50, -50), new Vector2(50, 50));
         CheckForObstacles();
         CacheNeighbors();
@@ -76,6 +88,7 @@ public class AStarMgr : MonoBehaviour
                 GameObject nodeClone = Instantiate(nodePrefab);
                 nodeClone.transform.position = new Vector3(startX + (x * xStepSize), 0, startZ + (z * zStepSize));
                 nodes[x].Add(nodeClone.GetComponent<Node>());
+                nodeClone.transform.parent = nodesStorage.transform;
                 nodeClone.name = "node" + i.ToString();
                 i++;
             }

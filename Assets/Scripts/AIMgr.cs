@@ -32,6 +32,7 @@ public class AIMgr : MonoBehaviour
         Waypoint wayp = wp.transform.GetComponent<Waypoint>();
         wayp.entity = ent;
         ent.unitAI.AddTask(wayp);
+        wp.transform.parent = SceneMgr.instance.currentScene.transform;
     }
 
     // Update is called once per frame

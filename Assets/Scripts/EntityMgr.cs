@@ -28,6 +28,12 @@ public class EntityMgr : MonoBehaviour
         
     }
 
+    public void Reset()
+    {
+        entities = new List<Entity>();
+        selectedEntities = new List<Entity>();
+    }
+
     float EntityInRange(Entity ent, float range, Vector3 point)
     {
         float distance = (ent.transform.position - point).magnitude;

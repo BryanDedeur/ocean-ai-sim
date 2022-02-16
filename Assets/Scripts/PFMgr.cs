@@ -7,6 +7,11 @@ public class PFMgr : MonoBehaviour {
     public static PFMgr instance;
     public List<PFContributor> contributors;
 
+    public void Reset()
+    {
+        contributors = new List<PFContributor>();
+    }
+
     [System.Serializable]
     public class PotentialEntry
     {

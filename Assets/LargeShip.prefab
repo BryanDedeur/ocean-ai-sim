@@ -4863,7 +4863,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9b017ea753d3f8443b4becb5d7f849bb, type: 2}
+  - {fileID: 2100000, guid: 24961e0016f81be4f91797589b170ac0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4902,7 +4902,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7052649438100283099
 Transform:
   m_ObjectHideFlags: 0
@@ -4982,6 +4982,7 @@ GameObject:
   - component: {fileID: 7052649438934651326}
   - component: {fileID: 7052649438934651327}
   - component: {fileID: 7052649438934651320}
+  - component: {fileID: 2170591350596380589}
   m_Layer: 0
   m_Name: LargeShip
   m_TagString: Untagged
@@ -5100,7 +5101,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   desiredChangeRate: 45
   turnRate: 10
-  desiredHeading: 0
+  directionVector: {x: 0, y: 0, z: 0}
   heading: 0
 --- !u!114 &7052649438934651327
 MonoBehaviour:
@@ -5116,6 +5117,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   accelRate: 0.1
   desiredSpeed: 0
+  desiredChangeRate: 0.3
   speed: 0
   minSpeed: 0
   maxSpeed: 1.6
@@ -5137,6 +5139,22 @@ MonoBehaviour:
   targets: []
   distanceToTarget: 0
   targetTollerance: 2
+  targetSpeed: 0
+  stoppingDistance: 0
+--- !u!114 &2170591350596380589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7052649438934651321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53944a8941fd78240bdd138be30ac6b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  potentialVector: {x: 0, y: 0, z: 0}
+  potentialForceExperienced: 0
 --- !u!1 &7052649439548949022
 GameObject:
   m_ObjectHideFlags: 0
