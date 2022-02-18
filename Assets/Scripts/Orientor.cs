@@ -19,6 +19,7 @@ public class Orientor : MonoBehaviour
     {
         headingIndicator = transform.Find("HeadingIndicator");
         entity = transform.GetComponent<Entity>();
+        heading = transform.rotation.eulerAngles.y;
     }
 
     public void IncreaseDesiredHeading()

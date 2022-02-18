@@ -26,17 +26,14 @@ public class AStarMgr : MonoBehaviour
         {
             Destroy(this);
         }
-
+        nodesStorage = new GameObject();
+        CreateNodes(new Vector2(-50, -50), new Vector2(50, 50));
+        Reset();
     }
 
     public void Reset()
     {
-        if (nodesStorage != null)
-        {
-            Destroy(nodesStorage);
-        }
-        nodesStorage = new GameObject();
-        CreateNodes(new Vector2(-50, -50), new Vector2(50, 50));
+        ResetNodes();
         CheckForObstacles();
         CacheNeighbors();
     }
@@ -63,6 +60,17 @@ public class AStarMgr : MonoBehaviour
                 }
             }
             nodes.Clear();
+        }
+    }
+
+    void ResetNodes()
+    {
+        for (int c = 0; c < nodes.Count; c++)
+        {
+            for (int r = 0; r < nodes[c].Count; r++)
+            {
+                nodes[c][r].Reset();
+            }
         }
     }
 
@@ -94,33 +102,6 @@ public class AStarMgr : MonoBehaviour
             }
         }
     }
-
-/*    IEnumerator ComputeNodeNeighbors()
-    {
-        for (int i = 0; i < nodes.Count; i++)
-        {
-            Node node = nodes[i];
-            foreach (Node otherNode in nodes)
-            {
-                if (node != otherNode)
-                {
-                    float xDistance = Mathf.Abs(node.transform.position.x - otherNode.transform.position.x);
-                    if (xDistance <= xStepSize)
-                    {
-                        float zDistance = Mathf.Abs(node.transform.position.z - otherNode.transform.position.z);
-                        if (zDistance <= zStepSize)
-                        {
-                            node.neighbors.Add(otherNode);
-                        }
-                    }
-                }
-            }
-            if (i % 10 == 0)
-            {
-                yield return null;
-            }
-        }
-    }*/
 
     public Node GetNodeNearestToPoint(Vector3 point)
     {
@@ -160,8 +141,11 @@ public class AStarMgr : MonoBehaviour
             {
                 if (Physics.Raycast(nodes[c][r].transform.position + offset, Vector3.down, out hit, Mathf.Infinity, layerMask))
                 {
-                    Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
+                    //Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
                     nodes[c][r].obstacle = true;
+                } else
+                {
+                    nodes[c][r].obstacle = false;
                 }
             }
         }
@@ -182,7 +166,9 @@ public class AStarMgr : MonoBehaviour
         Node begin = GetNodeNearestToPoint(start);
         begin.f = Distance(begin, goal);
         begin.g = 0;
+
         modified.Add(begin);
+        modified.Add(goal);
 
         List<Node> open = new List<Node>();
 
@@ -205,9 +191,7 @@ public class AStarMgr : MonoBehaviour
 
             open.Remove(q);
             q.closed = true;
-            counter++;
-            //Renderer r = q.transform.GetComponent<Renderer>();
-            //r.material.color = new Color(0, 0, 0);
+            q.renderer.material.color = new Color(0, 0, 0);
 
             if (q == goal)
             {
@@ -216,10 +200,13 @@ public class AStarMgr : MonoBehaviour
 
             foreach (Node successor in q.successors)
             {
-                if (successor.closed)
-                {
-                    continue;
-                }
+                successor.SetParent(q);
+            }
+
+
+            foreach (Node successor in q.successors)
+            {
+                //successor.SetParent(q);
 
                 float g = q.g + Distance(q, successor);
                 float h = Distance(q, goal);
@@ -232,10 +219,14 @@ public class AStarMgr : MonoBehaviour
                     successor.SetParent(q);
                     open.Add(successor);
                     modified.Add(successor);
-                    //Renderer r = successor.transform.GetComponent<Renderer>();
-                    //r.material.color = new Color(1, 0, 0);
+                    successor.renderer.material.color = new Color(1, 0, 0);
                 }
+
+
+
             }
+            counter++;
+            //yield return null;
             if (counter >= max)
             {
                 return null;
@@ -244,27 +235,42 @@ public class AStarMgr : MonoBehaviour
 
         if (goal.parent == null)
         {
+            foreach (Node node in modified)
+            {
+                node.f = Mathf.Infinity;
+                node.g = Mathf.Infinity;
+                node.parent = null;
+                node.closed = false;
+            }
+            modified.Clear();
+
             return null;
         }
 
         if (begin != goal)
         {
             Node current = goal;
+            int attempts = 0;
             while (current.parent != begin)
             {
                 route.nodes.Insert(0, current);
                 current = current.parent;
+                attempts++;
+                if (attempts > max)
+                {
+                    break;
+                }
             }
         }
 
-        foreach (Node node in modified)
+/*        foreach (Node node in modified)
         {
             node.f = Mathf.Infinity;
             node.g = Mathf.Infinity;
             node.parent = null;
             node.closed = false;
         }
-        modified.Clear();
+        modified.Clear();*/
 
         return route;
     }

@@ -19,8 +19,8 @@ public class SceneMgr : MonoBehaviour
     public void LoadScene(int sceneId)
     {
         Destroy(currentScene);
-        EntityMgr.instance.Reset();
         currentScene = Instantiate(scenes[sceneId]);
+        EntityMgr.instance.Reset();
         PFMgr.instance.Reset();
         AStarMgr.instance.Reset();
     }
