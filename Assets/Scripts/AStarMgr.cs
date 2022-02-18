@@ -198,24 +198,25 @@ public class AStarMgr : MonoBehaviour
                 break;
             }
 
-            foreach (Node successor in q.successors)
-            {
-                successor.SetParent(q);
-            }
-
 
             foreach (Node successor in q.successors)
             {
+                if (successor.closed)
+                {
+                    continue;
+                }
+
                 //successor.SetParent(q);
 
                 float g = q.g + Distance(q, successor);
                 float h = Distance(q, goal);
                 float f = g + h;
 
-                if (f < successor.f)
+                if (g < successor.g)
                 {
                     successor.f = f;
                     successor.g = g;
+                    //successor.closed = true;
                     successor.SetParent(q);
                     open.Add(successor);
                     modified.Add(successor);
@@ -241,6 +242,7 @@ public class AStarMgr : MonoBehaviour
                 node.g = Mathf.Infinity;
                 node.parent = null;
                 node.closed = false;
+                node.renderer.material.color = new Color(1, 1, 1);
             }
             modified.Clear();
 
@@ -263,14 +265,15 @@ public class AStarMgr : MonoBehaviour
             }
         }
 
-/*        foreach (Node node in modified)
+        foreach (Node node in modified)
         {
             node.f = Mathf.Infinity;
             node.g = Mathf.Infinity;
             node.parent = null;
             node.closed = false;
+            node.renderer.material.color = new Color(1, 1, 1);
         }
-        modified.Clear();*/
+        modified.Clear();
 
         return route;
     }

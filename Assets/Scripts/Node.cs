@@ -36,8 +36,8 @@ public class Node : MonoBehaviour
     public void SetParent(Node par)
     {
         parent = par;
-        lr.SetPosition(0, transform.position);
-        lr.SetPosition(1, transform.position  + ((par.transform.position - transform.position) * 0.5f) );
+        //lr.SetPosition(0, transform.position);
+        //lr.SetPosition(1, transform.position  + ((par.transform.position - transform.position) * 0.5f) );
     }
 
 }
