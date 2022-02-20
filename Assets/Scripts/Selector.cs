@@ -32,7 +32,6 @@ public class Selector : MonoBehaviour
         selectionIndicator.gameObject.SetActive(false);
         entity.unitAI.SetFocus(false);
         entity.orientor.SetFocus(false);
-
     }
 
     // Update is called once per frame

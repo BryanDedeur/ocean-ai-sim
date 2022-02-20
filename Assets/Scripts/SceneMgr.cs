@@ -14,6 +14,7 @@ public class SceneMgr : MonoBehaviour
     void Awake()
     {
         instance = this;
+        LoadScene(0);
     }
 
     public void LoadScene(int sceneId)
@@ -22,7 +23,7 @@ public class SceneMgr : MonoBehaviour
         currentScene = Instantiate(scenes[sceneId]);
         EntityMgr.instance.Reset();
         PFMgr.instance.Reset();
-        AStarMgr.instance.Reset();
+        StartCoroutine(AStarMgr.instance.Reset());
     }
 
     public void Update()

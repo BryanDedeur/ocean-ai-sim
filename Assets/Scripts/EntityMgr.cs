@@ -17,6 +17,8 @@ public class EntityMgr : MonoBehaviour
         }
     }
 
+    public List<GameObject> entityPrefabs;
+
     public float selectionDistance = 2;
     public List<Entity> entities;
     public List<Entity> selectedEntities;
@@ -89,17 +91,54 @@ public class EntityMgr : MonoBehaviour
         selectedEntities.Clear();
     }
 
+    void CreateEntity(int id, Vector3 pos)
+    {
+        GameObject newObj = Instantiate(entityPrefabs[id]);
+        newObj.transform.position = pos;
+        newObj.transform.parent = SceneMgr.instance.currentScene.transform;
+    }
+
+    void DestroyEntity(Entity ent)
+    {
+        entities.Remove(ent);
+        selectedEntities.Remove(ent);
+        Destroy(ent.transform.gameObject);
+    }
+
+    void DestroySelected()
+    {
+        while (selectedEntities.Count > 0)
+        {
+            DestroyEntity(selectedEntities[0]);
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
+
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
             if (Physics.Raycast(ray, out hit, float.PositiveInfinity))
             {
-                if(Input.GetKey(KeyCode.LeftShift))
+                if (Input.GetKey(KeyCode.Alpha1))
+                {
+                    CreateEntity(0, hit.point);
+                } 
+                else if (Input.GetKey(KeyCode.Alpha2))
+                {
+                    CreateEntity(1, hit.point);
+
+                }
+                else if (Input.GetKey(KeyCode.Alpha3))
+                {
+                    CreateEntity(2, hit.point);
+                }
+
+                if (Input.GetKey(KeyCode.LeftShift))
                 {
                     ToggleSelectionOnEntities(EntitiesInRange(selectionDistance, hit.point));
                 }
@@ -125,6 +164,11 @@ public class EntityMgr : MonoBehaviour
                 }
 
             }
+        }
+
+        if (Input.GetKey(KeyCode.Delete))
+        {
+            DestroySelected();
         }
 
         foreach (Entity ent in selectedEntities)

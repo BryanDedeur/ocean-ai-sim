@@ -6,26 +6,32 @@ public class PFMgr : MonoBehaviour {
 
     public static PFMgr instance;
     public List<PFContributor> contributors;
+    public GameObject potentialFieldVisual;
 
     public void Reset()
     {
         contributors = new List<PFContributor>();
     }
 
-    [System.Serializable]
-    public class PotentialEntry
+    public bool active;
+
+    public void Toggle(bool state)
     {
-        public float constantC;
-        public float constantE;
+        active = state;
+        SetActiveState(active);
     }
-
-    public List<PotentialEntry> constantPairs;
-
+    void SetActiveState(bool state)
+    {
+        foreach(PFContributor contributor in contributors)
+        {
+            contributor.SetActiveState(state);
+        }
+    }
 
     // using formula cd^e where d = 1/distance and c and e are tunable
 
-	// Use this for initialization
-	void Awake () {
+    // Use this for initialization
+    void Awake () {
         contributors = new List<PFContributor>();
         instance = this;
     }
@@ -58,17 +64,15 @@ public class PFMgr : MonoBehaviour {
 
 
     // Calculates force PRODUCED by the position of interest (not sum of all potential emitters)
-    private float CalculateIndividualForce(Vector3 diff)
+    private float CalculateIndividualForce(PFContributor contributor, float distance)
     {
-        // force is same as 'd' in 'cd^e', ignore if 0
-        float distance = diff.magnitude;
         float result = 0;
         if (distance > 0)
         {
-            for(int i = 0; i < constantPairs.Count; i++)
+            for(int i = 0; i < contributor.constantPairs.Count; i++)
             {
                 //distance += constantPairs[i].constantC * Mathf.Pow(distance, constantPairs[i].constantE);
-                float temp = constantPairs[i].constantC * distance + constantPairs[i].constantE;
+                float temp = contributor.constantPairs[i].constantC * distance + contributor.constantPairs[i].constantE;
                 if (temp < 0)
                 {
                     continue;
@@ -93,7 +97,7 @@ public class PFMgr : MonoBehaviour {
             }
 
             Vector3 diff = (experiencer.transform.position - contributor.transform.position);
-            float individualForce = CalculateIndividualForce(diff);
+            float individualForce = CalculateIndividualForce(contributor, diff.magnitude);
             sumForce += individualForce;
             resultVec += diff.normalized * individualForce;
 

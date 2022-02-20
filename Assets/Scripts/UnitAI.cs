@@ -39,7 +39,12 @@ public class UnitAI : MonoBehaviour
 
     }
 
-    public void ClearTasks()
+    private void OnDestroy()
+    {
+        Clear();
+    }
+
+    public void Clear()
     {
         foreach (Waypoint waypoint in targets)
         {
@@ -85,7 +90,11 @@ public class UnitAI : MonoBehaviour
 
                     if (distanceToTarget < stoppingDistance)
                     {
-                        entity.movement.desiredSpeed = approachSpeed ; //entity.movement.desiredSpeed - entity.movement.accelRate * Time.deltaTime;
+                        entity.movement.desiredSpeed = approachSpeed; //entity.movement.desiredSpeed - entity.movement.accelRate * Time.deltaTime;
+                    } else
+                    {
+                        dot = 1 - Mathf.Abs(Vector3.Dot(transform.forward, (targets[0].transform.position - transform.position).normalized));
+                        entity.movement.desiredSpeed = entity.movement.maxSpeed * dot + 0.05f;
                     }
                 }
                 else

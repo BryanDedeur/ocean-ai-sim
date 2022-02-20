@@ -16,6 +16,7 @@ public class AIMgr : MonoBehaviour
         }
     }
 
+    private float dragTime = 0;
     public GameObject waypoint;
 
     // Start is called before the first frame update
@@ -38,8 +39,29 @@ public class AIMgr : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(1) && Input.GetKey(KeyCode.LeftAlt))
+
+        if (Input.GetMouseButtonDown(1))
         {
+            dragTime = 0;
+        }
+
+        if (Input.GetMouseButton(1))
+        {
+            dragTime += Time.deltaTime;
+        }
+
+
+        if (Input.GetMouseButtonUp(1) && dragTime < 0.5f)
+        {
+            if (!Input.GetKey(KeyCode.LeftShift))
+            {
+                foreach (Entity ent in EntityMgr.instance.selectedEntities)
+                {
+                    ent.unitAI.Clear();
+                    ent.movement.desiredSpeed = 0;
+                }
+            }
+
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
@@ -54,7 +76,7 @@ public class AIMgr : MonoBehaviour
                     {
                         //CreateWaypoint(ent);
 
-                        if (AStarMgr.instance.isActiveAndEnabled)
+                        if (AStarMgr.instance.active)
                         {
                             Route route = AStarMgr.instance.ComputeRoute(ent.unitAI.GetLastWaypointPosition(), hit.point);
                             //StartCoroutine(AStarMgr.instance.ComputeRoute(ent.unitAI.GetLastWaypointPosition(), hit.point));
@@ -74,7 +96,7 @@ public class AIMgr : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.Backspace))
+/*        if (Input.GetKeyDown(KeyCode.Backspace))
         {
             foreach (Entity ent in EntityMgr.instance.selectedEntities)
             {
@@ -85,15 +107,6 @@ public class AIMgr : MonoBehaviour
                     Destroy(wp.gameObject);
                 }
             }
-        }
-
-        if (Input.GetKey(KeyCode.Delete))
-        {
-            foreach (Entity ent in EntityMgr.instance.selectedEntities)
-            {
-                ent.unitAI.ClearTasks();
-                ent.movement.desiredSpeed = 0;
-            }
-        }
+        }*/
     }
 }

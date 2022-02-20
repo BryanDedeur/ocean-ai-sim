@@ -43,9 +43,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fcb2242bd206884caada6f23ce6bb69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  corner1: {x: 0, y: 0}
-  corner2: {x: 0, y: 0}
+  corner1: {x: -50, y: -50}
+  corner2: {x: 50, y: 50}
+  scaleRange: {x: 5, y: 10}
   objects:
-  - {fileID: 7557398241314109368, guid: 1c7851cab22f14641b660acd2d24f291, type: 3}
   - {fileID: 3587160304101821000, guid: 4c2a5711c17966c4d8b1aa4e26e3b005, type: 3}
+  - {fileID: 7557398241314109368, guid: 1c7851cab22f14641b660acd2d24f291, type: 3}
   quantities: 140000001e00000064000000
+  objectIndex: 0
+  quantitiesIndex: 0

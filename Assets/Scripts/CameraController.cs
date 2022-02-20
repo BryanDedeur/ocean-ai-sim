@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
+    public static CameraController instance;
     private Vector3 focusPos;
     private Vector2 mouseStartPos;
     private Vector2 cameraOrbitAngles = new Vector2(180, 90);
@@ -16,9 +17,10 @@ public class CameraController : MonoBehaviour
     private Vector3 cameraStartEulerAngles;
     private Vector3 desiredCameraAngles;
 
+
     private void Awake()
     {
-
+        instance = this;
     }
 
     private void OnMouseDrag()
@@ -55,16 +57,16 @@ public class CameraController : MonoBehaviour
             OnMouseDrag();
         }
 
-        if (Input.GetAxis("Mouse ScrollWheel") > 0f)
-        {
-            transform.position += transform.forward * -scrollSpeed * Time.deltaTime;
+        /*        if (Input.GetAxis("Mouse ScrollWheel") > 0f)
+                {
+                    transform.position += transform.forward * -scrollSpeed * Time.deltaTime;
 
-        }
-        else if (Input.GetAxis("Mouse ScrollWheel") < 0f)
-        {
-            transform.position += transform.forward * scrollSpeed * Time.deltaTime;
+                }
+                else if (Input.GetAxis("Mouse ScrollWheel") < 0f)
+                {
+                    transform.position += transform.forward * scrollSpeed * Time.deltaTime;
 
-        }
+                }*/
 
         if (Input.GetKey(KeyCode.W))
         {
@@ -84,6 +86,16 @@ public class CameraController : MonoBehaviour
         if (Input.GetKey(KeyCode.D))
         {
             transform.position += transform.right * cameraMoveSpeed * Time.deltaTime;
+        }
+
+        if (Input.GetKey(KeyCode.Q))
+        {
+            transform.position += transform.up * cameraMoveSpeed * Time.deltaTime;
+        }
+
+        if (Input.GetKey(KeyCode.E))
+        {
+            transform.position -= transform.up * cameraMoveSpeed * Time.deltaTime;
         }
 
         if (Input.GetKeyDown(KeyCode.LeftShift))

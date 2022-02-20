@@ -5,7 +5,6 @@ using UnityEngine;
 public class AStarMgr : MonoBehaviour
 {
     public static AStarMgr instance;
-    public bool enabled = false;
     public Vector2Int searchSpaceResolution;
 
     public GameObject nodePrefab;
@@ -15,6 +14,30 @@ public class AStarMgr : MonoBehaviour
 
     private float xStepSize = 0;
     private float zStepSize = 0;
+
+    public bool active;
+
+    public void Toggle(bool state)
+    {
+        active = state;
+        SetActiveNodeState(active);
+    }
+    void SetActiveNodeState(bool state)
+    {
+        if (nodes != null)
+        {
+            for (int c = 0; c < nodes.Count; c++)
+            {
+                if (nodes[c] != null)
+                {
+                    for (int r = 0; r < nodes[c].Count; r++)
+                    {
+                        nodes[c][r].transform.gameObject.SetActive(state);
+                    }
+                }
+            }
+        }
+    }
 
     private void Awake()
     {
@@ -31,11 +54,15 @@ public class AStarMgr : MonoBehaviour
         Reset();
     }
 
-    public void Reset()
+    public IEnumerator Reset()
     {
+        yield return null;
         ResetNodes();
+        yield return null;
         CheckForObstacles();
+        yield return null;
         CacheNeighbors();
+        SetActiveNodeState(active);
     }
 
     // Start is called before the first frame update
@@ -43,6 +70,8 @@ public class AStarMgr : MonoBehaviour
     {
         /*StartCoroutine(ComputeNodeNeighbors());*/
     }
+
+
 
     void ClearNodes()
     {

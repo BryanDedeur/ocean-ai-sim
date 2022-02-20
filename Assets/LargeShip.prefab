@@ -5155,6 +5155,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   potentialVector: {x: 0, y: 0, z: 0}
   potentialForceExperienced: 0
+  potentialFieldVisual: {fileID: 1600348298931703160, guid: 825c24e365dd3fe479fb60a12a0c4069, type: 3}
+  constantPairs:
+  - constantC: -0.5
+    constantE: 3
 --- !u!1 &7052649439548949022
 GameObject:
   m_ObjectHideFlags: 0
