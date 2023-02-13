@@ -1,6 +1,6 @@
 # Ocean AI Sim 
 
-Oceanic agents navigating around obstacles with two path planning techniques, graph based planning (AStar) and artificial poteltial field planning.
+Oceanic agents navigating around obstacles with two path planning techniques, graph based planning (AStar) and artificial poteltial field planning. The agents in this simulation move with a custom simple 2D oriented physics.
  
 WebGL Demo: https://bryandedeur.github.io/ocean-ai-sim/Builds
 
