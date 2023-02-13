@@ -1,5 +1,6 @@
-# ocean-ai-sim
- 
+# Ocean AI Sim 
+
+Oceanic agents navigating around obstacles with two path planning techniques, graph based planning and artificial poteltial field planning.
  
 WebGL Demo: https://bryandedeur.github.io/ocean-ai-sim/Builds
 
